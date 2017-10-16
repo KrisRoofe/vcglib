@@ -43,7 +43,7 @@ class MyVertex;
 
 struct MyUsedTypes : public vcg::UsedTypes<	vcg::Use<MyVertex>::AsVertexType,    vcg::Use<MyFace>::AsFaceType>{};
 
-class MyVertex  : public vcg::Vertex< MyUsedTypes, vcg::vertex::Coord3f, vcg::vertex::Normal3f, vcg::vertex::BitFlags  >{};
+class MyVertex  : public vcg::Vertex< MyUsedTypes, vcg::vertex::Coord3f, vcg::vertex::Normal3f, vcg::vertex::BitFlags, vcg::vertex::Color4b>{};
 class MyFace    : public vcg::Face < MyUsedTypes, vcg::face::VertexRef, vcg::face::Normal3f, vcg::face::BitFlags > {};
 class MyMesh    : public vcg::tri::TriMesh< std::vector<MyVertex>, std::vector<MyFace> > {};
 
@@ -82,7 +82,7 @@ int  main(int argc, char **argv)
   }
 
   MyMesh m;
-  if(vcg::tri::io::ImporterPLY<MyMesh>::Open(m,argv[1])!=0)
+  if(vcg::tri::io::Importer<MyMesh>::Open(m,argv[1])!=0)
   {
     printf("Error reading file  %s\n",argv[1]);
     exit(0);
@@ -103,6 +103,6 @@ int  main(int argc, char **argv)
   Grid.ExtractMesh(m);
   printf("Output mesh vn:%i fn:%i\n",m.VN(),m.FN());
 
-  vcg::tri::io::ExporterPLY<MyMesh>::Save(m,argv[2]);
+  vcg::tri::io::Exporter<MyMesh>::Save(m,argv[2]);
   return 0;
 }
